@@ -11,15 +11,21 @@ class Entry extends FileEntry
 
     public static function fromModel(Model $model)
     {
-        return (new Entry)
+        $newEntry = (new Entry)
             ->locale($model->site)
             ->slug($model->slug)
-            ->date($model->date)
             ->collection($model->collection)
             ->data($model->data)
             ->blueprint($model->data['blueprint'] ?? null)
             ->published($model->published)
             ->model($model);
+
+        if ($model->date != null)  {
+            return $newEntry->date($model->date);
+        }
+        else {
+            return $newEntry;
+        }
     }
 
     public function toModel()
